@@ -1,0 +1,16 @@
+# Web framework
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+WTForms==3.1.2
+email_validator==2.2.0
+
+# Makine ogrenmesi / veri isleme
+scikit-learn==1.5.2
+pandas==2.2.3
+joblib==1.4.2
+
+# QR kod uretimi (Asama 6a)
+qrcode==7.4.2
+Pillow==10.4.0

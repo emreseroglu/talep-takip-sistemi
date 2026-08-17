@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Talep #{{ ticket.id }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h4 mb-0">Talep #{{ ticket.id }}</h1>
+      <a href="{{ url_for('tickets.my_tickets') }}" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Taleplerime Dön
+      </a>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>{{ ticket.title }}</span>
+        <span class="badge text-bg-{{ STATUS_COLORS[ticket.status] }}">
+          {{ ticket.status_label }}
+        </span>
+      </div>
+      <div class="card-body">
+        <p class="mb-4" style="white-space: pre-line;">{{ ticket.description }}</p>
+
+        <dl class="row mb-0 small">
+          <dt class="col-sm-3">Kategori</dt>
+          <dd class="col-sm-9">{{ ticket.category_label }}</dd>
+
+          <dt class="col-sm-3">Öncelik</dt>
+          <dd class="col-sm-9">
+            <span class="badge text-bg-{{ PRIORITY_COLORS[ticket.priority] }}">
+              {{ ticket.priority_label }}
+            </span>
+          </dd>
+
+          {% if ticket.device %}
+            <dt class="col-sm-3">İlgili Cihaz</dt>
+            <dd class="col-sm-9">
+              <code>{{ ticket.device.serial_no }}</code> &middot; {{ ticket.device.name }}
+            </dd>
+          {% endif %}
+
+          <dt class="col-sm-3">Oluşturulma</dt>
+          <dd class="col-sm-9">{{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</dd>
+
+          <dt class="col-sm-3">Son Güncelleme</dt>
+          <dd class="col-sm-9">{{ ticket.updated_at.strftime('%d.%m.%Y %H:%M') }}</dd>
+
+          {% if ticket.resolved_at %}
+            <dt class="col-sm-3">Çözüm Tarihi</dt>
+            <dd class="col-sm-9">
+              {{ ticket.resolved_at.strftime('%d.%m.%Y %H:%M') }}
+              <span class="text-muted">({{ ticket.resolution_hours }} saat)</span>
+            </dd>
+          {% endif %}
+        </dl>
+      </div>
+    </div>
+
+    {# Talebin hangi aşamada olduğunu gösteren basit durum çizgisi #}
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between text-center small">
+          {% set steps = [('acik', 'Açık', 'bi-envelope-open'),
+                          ('islemde', 'İşlemde', 'bi-tools'),
+                          ('cozuldu', 'Çözüldü', 'bi-check-circle')] %}
+          {% set order = {'acik': 0, 'islemde': 1, 'cozuldu': 2} %}
+          {% for value, label, icon in steps %}
+            {% set done = order[ticket.status] >= loop.index0 %}
+            <div class="flex-fill {{ 'text-success' if done else 'text-muted opacity-50' }}">
+              <i class="bi {{ icon }} fs-4 d-block"></i>
+              {{ label }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

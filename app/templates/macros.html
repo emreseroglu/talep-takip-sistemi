@@ -1,0 +1,53 @@
+{# ---------------------------------------------------------------------------
+   Form yardımcı makroları
+
+   Tüm formlar bu makroları kullanır; böylece hata gösterimi, zorunlu alan
+   işareti ve boşluklar uygulamanın tamamında aynı biçimdedir.
+   --------------------------------------------------------------------------- #}
+
+{# Tek bir form alanını Bootstrap uyumlu şekilde basar.
+   Hata varsa alanı kırmızıya boyar ve mesajı alta yazar. #}
+{% macro render_field(field, placeholder="", rows=None, autofocus=False) %}
+  <div class="mb-3">
+    {{ field.label(class="form-label") }}
+    {% if field.flags.required %}<span class="text-danger" title="Zorunlu alan">*</span>{% endif %}
+
+    {% set is_select = field.type == "SelectField" %}
+    {% set css = ("form-select" if is_select else "form-control")
+                 + (" is-invalid" if field.errors else "") %}
+    {% set extra = {"class": css} %}
+    {# placeholder yalnızca metin alanlarında anlamlıdır, açılır listede değil #}
+    {% if placeholder and not is_select %}
+      {% set _ = extra.update({"placeholder": placeholder}) %}
+    {% endif %}
+    {% if rows %}{% set _ = extra.update({"rows": rows}) %}{% endif %}
+    {% if autofocus %}{% set _ = extra.update({"autofocus": True}) %}{% endif %}
+    {{ field(**extra) }}
+
+    {% for error in field.errors %}
+      <div class="invalid-feedback">{{ error }}</div>
+    {% endfor %}
+    {% if field.description %}
+      <div class="form-text">{{ field.description }}</div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+{# Formun tamamındaki hataları en üstte topluca gösterir.
+   Uzun formlarda kullanıcının hatayı gözden kaçırmasını önler. #}
+{% macro render_form_errors(form) %}
+  {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <strong>Form gönderilemedi.</strong> Lütfen aşağıdaki alanları düzeltiniz:
+      <ul class="mb-0 mt-2 small">
+        {% for field_name, errors in form.errors.items() %}
+          {% for error in errors %}
+            <li>{{ form[field_name].label.text }}: {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}

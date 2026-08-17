@@ -1,0 +1,163 @@
+{# ---------------------------------------------------------------------------
+   SSS sohbet balonu — sağ alt köşede sabit durur.
+   Personel giriş yaptıktan sonra her sayfadan erişilebilir.
+   --------------------------------------------------------------------------- #}
+<div id="sssWidget">
+  <button id="sssAcKapa" type="button" class="sss-balon" aria-expanded="false"
+          aria-controls="sssPanel" title="Sık sorulan sorular">
+    <i class="bi bi-chat-dots-fill"></i>
+  </button>
+
+  <div id="sssPanel" class="sss-panel" hidden>
+    <div class="sss-baslik">
+      <span><i class="bi bi-robot"></i> Yardım Asistanı</span>
+      <button type="button" id="sssKapat" class="btn-close btn-close-white"
+              aria-label="Kapat"></button>
+    </div>
+
+    <div id="sssMesajlar" class="sss-mesajlar" aria-live="polite">
+      <div class="sss-mesaj bot">
+        Merhaba! Sık sorulan sorular hakkında yardımcı olabilirim.
+        Sorununuzu birkaç kelimeyle yazmanız yeterli.
+      </div>
+      <div id="sssOrnekler" class="sss-ornekler"></div>
+    </div>
+
+    <form id="sssForm" class="sss-giris" autocomplete="off">
+      <input type="text" id="sssMetin" class="form-control form-control-sm"
+             placeholder="Sorunuzu yazınız..." maxlength="500" required>
+      <button type="submit" class="btn btn-kurum btn-sm" aria-label="Gönder">
+        <i class="bi bi-send"></i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  const SOR_URL      = "{{ url_for('chatbot.ask') }}";
+  const SORULAR_URL  = "{{ url_for('chatbot.suggestions') }}";
+  const CSRF_TOKEN   = "{{ csrf_token() }}";
+
+  const acKapa   = document.getElementById('sssAcKapa');
+  const panel    = document.getElementById('sssPanel');
+  const kapat    = document.getElementById('sssKapat');
+  const form     = document.getElementById('sssForm');
+  const metin    = document.getElementById('sssMetin');
+  const mesajlar = document.getElementById('sssMesajlar');
+  const ornekler = document.getElementById('sssOrnekler');
+
+  // --- Panel aç/kapa ---
+  function panelAc(acik) {
+    panel.hidden = !acik;
+    acKapa.setAttribute('aria-expanded', acik ? 'true' : 'false');
+    acKapa.innerHTML = acik
+      ? '<i class="bi bi-x-lg"></i>'
+      : '<i class="bi bi-chat-dots-fill"></i>';
+    if (acik) metin.focus();
+  }
+
+  acKapa.addEventListener('click', function () { panelAc(panel.hidden); });
+  kapat.addEventListener('click', function () { panelAc(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !panel.hidden) panelAc(false);
+  });
+
+  // --- Mesaj ekleme ---
+  function mesajEkle(html, sinif) {
+    const div = document.createElement('div');
+    div.className = 'sss-mesaj ' + sinif;
+    div.innerHTML = html;
+    mesajlar.appendChild(div);
+    mesajlar.scrollTop = mesajlar.scrollHeight;
+    return div;
+  }
+
+  function kacisliMetin(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  // --- Örnek soru butonları (ilk açılışta) ---
+  fetch(SORULAR_URL)
+    .then(function (r) { return r.json(); })
+    .then(function (veri) {
+      veri.questions.forEach(function (soru) {
+        ornekler.appendChild(oneriDugmesi(soru));
+      });
+    })
+    .catch(function () { /* örnek sorular gösterilemezse sohbet yine çalışır */ });
+
+  // --- Öneri düğmesi üretir (örnek sorular ve "ilgili sorular" için) ---
+  function oneriDugmesi(soru) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'sss-ornek';
+    btn.textContent = soru;
+    btn.addEventListener('click', function () { sor(soru); });
+    return btn;
+  }
+
+  // --- Soru gönderme ---
+  function sor(soru) {
+    mesajEkle(kacisliMetin(soru), 'kullanici');
+    if (ornekler.parentNode) ornekler.remove();
+    const bekleyen = mesajEkle('<span class="sss-yaziyor">Aranıyor…</span>', 'bot');
+
+    fetch(SOR_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ message: soru }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (veri) {
+        bekleyen.remove();
+
+        if (!veri.found) {
+          let html = kacisliMetin(veri.message);
+          if (veri.ticket_url) {
+            html += '<a href="' + veri.ticket_url +
+                    '" class="btn btn-kurum btn-sm d-block mt-2">' +
+                    '<i class="bi bi-plus-lg"></i> Talep Oluştur</a>';
+          }
+          mesajEkle(html, 'bot');
+          return;
+        }
+
+        // Yalnızca EN İYİ eşleşmenin cevabı tam olarak gösterilir.
+        // Diğer eşleşmeler cevap yığını oluşturmasın diye tıklanabilir
+        // öneri düğmesi olarak sunulur.
+        const enIyi = veri.results[0];
+        mesajEkle(
+          '<strong>' + kacisliMetin(enIyi.question) + '</strong>' +
+          '<div class="mt-1">' + kacisliMetin(enIyi.answer) + '</div>',
+          'bot'
+        );
+
+        if (veri.results.length > 1) {
+          const kutu = mesajEkle(
+            '<div class="sss-ilgili">Aradığınız bu değilse:</div>', 'bot');
+          const grup = document.createElement('div');
+          grup.className = 'sss-ornekler';
+          veri.results.slice(1).forEach(function (sonuc) {
+            grup.appendChild(oneriDugmesi(sonuc.question));
+          });
+          kutu.appendChild(grup);
+        }
+      })
+      .catch(function () {
+        bekleyen.remove();
+        mesajEkle('Bağlantı hatası oluştu, lütfen tekrar deneyiniz.', 'bot');
+      });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const soru = metin.value.trim();
+    if (!soru) return;
+    metin.value = '';
+    sor(soru);
+  });
+})();
+</script>

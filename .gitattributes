@@ -1,0 +1,18 @@
+# Satır sonlarını normalleştir: depoda LF, Windows çalışma kopyasında CRLF.
+* text=auto
+
+# Metin olarak işlenecek dosyalar
+*.py    text diff=python
+*.html  text diff=html
+*.css   text diff=css
+*.md    text
+*.csv   text
+*.json  text
+*.txt   text
+*.svg   text
+
+# İkili dosyalar
+*.png     binary
+*.jpg     binary
+*.joblib  binary
+*.db      binary

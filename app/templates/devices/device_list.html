@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Cihazlar{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Zimmetli Cihazlar</h1>
+  <a href="{{ url_for('devices.new_device') }}" class="btn btn-kurum">
+    <i class="bi bi-plus-lg"></i> Yeni Cihaz Kaydet
+  </a>
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    {% if devices %}
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+          <thead>
+            <tr>
+              <th>Seri No</th>
+              <th>Cihaz</th>
+              <th>Zimmetli Kişi</th>
+              <th>Birim</th>
+              <th class="text-center">Arıza</th>
+              <th class="text-center">Açık</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for device in devices %}
+              <tr>
+                <td><code>{{ device.serial_no }}</code></td>
+                <td>{{ device.name }}</td>
+                <td class="small">{{ device.assigned_to }}</td>
+                <td class="small text-muted">{{ device.location or '—' }}</td>
+                <td class="text-center">
+                  <span class="badge text-bg-secondary">{{ device.fault_count }}</span>
+                </td>
+                <td class="text-center">
+                  {% if device.open_tickets %}
+                    <span class="badge text-bg-danger">{{ device.open_tickets|length }}</span>
+                  {% else %}
+                    <span class="text-muted">—</span>
+                  {% endif %}
+                </td>
+                <td class="text-end text-nowrap">
+                  <a href="{{ url_for('devices.device_detail', device_id=device.id) }}"
+                     class="btn btn-sm btn-outline-secondary">Detay</a>
+                  <a href="{{ url_for('devices.device_label', device_id=device.id) }}"
+                     class="btn btn-sm btn-outline-secondary" title="QR etiketi">
+                    <i class="bi bi-qr-code"></i>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="text-center text-muted py-5">
+        <i class="bi bi-pc-display fs-1 d-block mb-2"></i>
+        <p class="mb-3">Sistemde kayıtlı cihaz bulunmuyor.</p>
+        <a href="{{ url_for('devices.new_device') }}" class="btn btn-kurum btn-sm">
+          İlk cihazı kaydedin
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Etiket — {{ device.serial_no }}{% endblock %}
+
+{% block head_extra %}
+<style>
+  /* Cihaza yapıştırılacak etiket. Ölçüler santimetre cinsindendir ki
+     yazıcıdan çıkan boyut ekrandaki boyutla aynı olsun. */
+  .zimmet-etiket {
+    width: 9cm;
+    border: 2px solid #1c4f8f;
+    border-radius: 4px;
+    padding: 0.4cm;
+    background: #fff;
+    display: flex;
+    gap: 0.4cm;
+    align-items: center;
+  }
+
+  .zimmet-etiket img {
+    width: 2.6cm;
+    height: 2.6cm;
+    flex-shrink: 0;
+  }
+
+  .zimmet-etiket .kurum {
+    font-size: 8pt;
+    color: #1c4f8f;
+    font-weight: 700;
+    line-height: 1.15;
+    text-transform: uppercase;
+  }
+
+  .zimmet-etiket .seri {
+    font-size: 14pt;
+    font-weight: 700;
+    font-family: monospace;
+    line-height: 1.1;
+    margin: 0.1cm 0;
+  }
+
+  .zimmet-etiket .cihaz {
+    font-size: 9pt;
+    line-height: 1.2;
+  }
+
+  .zimmet-etiket .zimmet {
+    font-size: 8pt;
+    color: #52514e;
+  }
+
+  @media print {
+    /* Yazdırırken yalnızca etiket kalsın */
+    .yazdirma-disi { display: none !important; }
+    .zimmet-etiket { margin: 0; }
+    @page { margin: 1cm; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="yazdirma-disi mb-3 d-flex justify-content-between align-items-center">
+  <h1 class="h4 mb-0">Cihaz Etiketi</h1>
+  <div class="d-flex gap-2">
+    <button onclick="window.print()" class="btn btn-kurum btn-sm">
+      <i class="bi bi-printer"></i> Yazdır
+    </button>
+    <a href="{{ url_for('devices.device_detail', device_id=device.id) }}"
+       class="btn btn-outline-secondary btn-sm">Cihaza Dön</a>
+  </div>
+</div>
+
+<div class="zimmet-etiket">
+  <img src="{{ url_for('devices.device_qr', device_id=device.id, boyut='buyuk') }}"
+       alt="{{ device.serial_no }} QR kodu">
+  <div>
+    <div class="kurum">
+      T.C. Tarım ve Orman Bakanlığı<br>
+      Diyarbakır İl Müdürlüğü
+    </div>
+    <div class="seri">{{ device.serial_no }}</div>
+    <div class="cihaz">{{ device.name }}</div>
+    <div class="zimmet">
+      Zimmet: {{ device.assigned_to }}
+      {% if device.location %}<br>Birim: {{ device.location }}{% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="yazdirma-disi alert alert-light border mt-4 small" style="max-width: 9cm;">
+  <i class="bi bi-info-circle text-secondary"></i>
+  Etiketi yazdırdıktan sonra keserek cihazın üzerine yapıştırınız.
+  Arıza durumunda kod okutularak cihazın geçmişine hızlıca ulaşılabilir.
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_field %}
+{% block title %}Giriş Yap{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+  <div class="text-center mb-4">
+    <img src="{{ url_for('static', filename='img/favicon.svg') }}" alt="" width="56" height="56">
+    <h1 class="h4 mt-3 mb-1">Arıza / Talep Takip Sistemi</h1>
+    <p class="text-muted small mb-0">
+      Diyarbakır Tarım ve Orman İl Müdürlüğü<br>Bilgi İşlem Birimi
+    </p>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header">Kullanıcı Girişi</div>
+    <div class="card-body">
+      <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        {{ render_field(form.email, placeholder="ornek@tarimorman.gov.tr", autofocus=True) }}
+        {{ render_field(form.password, placeholder="••••••••") }}
+
+        <div class="form-check mb-3">
+          {{ form.remember_me(class="form-check-input") }}
+          {{ form.remember_me.label(class="form-check-label") }}
+        </div>
+
+        {{ form.submit(class="btn btn-kurum w-100") }}
+      </form>
+    </div>
+  </div>
+
+  <p class="text-center text-muted small mt-3">
+    Hesabınız yoksa veya şifrenizi unuttuysanız
+    bilgi işlem birimi ile iletişime geçiniz.
+  </p>
+</div>
+{% endblock %}

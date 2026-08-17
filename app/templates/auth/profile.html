@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_field, render_form_errors %}
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+<h1 class="h4 mb-3">Profilim</h1>
+
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-header">Kullanıcı Bilgileri</div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-5">Ad Soyad</dt>
+          <dd class="col-7">{{ current_user.full_name }}</dd>
+
+          <dt class="col-5">E-posta</dt>
+          <dd class="col-7">{{ current_user.email }}</dd>
+
+          <dt class="col-5">Birim</dt>
+          <dd class="col-7">{{ current_user.department }}</dd>
+
+          <dt class="col-5">Rol</dt>
+          <dd class="col-7">
+            <span class="badge text-bg-secondary">{{ current_user.role_label }}</span>
+          </dd>
+        </dl>
+        <p class="form-text mb-0 mt-3">
+          Ad, birim veya e-posta bilgilerinizde değişiklik için
+          bilgi işlem birimi ile iletişime geçiniz.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">Şifre Değiştir</div>
+      <div class="card-body">
+        {{ render_form_errors(form) }}
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+          {{ render_field(form.current_password) }}
+          {{ render_field(form.new_password) }}
+          {{ render_field(form.confirm_password) }}
+          {{ form.submit(class="btn btn-kurum") }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

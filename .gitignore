@@ -1,0 +1,36 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# --- Sanal ortam ---
+venv/
+.venv/
+env/
+
+# --- Veritabanı (init_db.py ile yeniden oluşturulur) ---
+instance/
+*.db
+*.sqlite3
+
+# --- Eğitilmiş modeller ve başarım raporu (train_model.py üretir) ---
+models/*.joblib
+reports/
+
+# --- Ortam değişkenleri (gizli bilgi içerebilir) ---
+.env
+.env.local
+
+# --- Editör / IDE ---
+.vscode/
+.idea/
+*.swp
+
+# --- İşletim sistemi ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Günlük dosyaları ---
+*.log

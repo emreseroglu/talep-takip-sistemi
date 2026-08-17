@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Proje Hakkında{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">Proje Hakkında</div>
+      <div class="card-body">
+        <h2 class="h5">Yapay Zeka Destekli Arıza / Talep Sınıflandırma ve Takip Sistemi</h2>
+        <p class="text-muted">
+          Bu uygulama, Diyarbakır Tarım ve Orman İl Müdürlüğü Bilgi İşlem Birimi için
+          staj bitirme projesi kapsamında geliştirilmiştir.
+        </p>
+        <p class="mb-1"><strong>Kullanılan teknolojiler:</strong></p>
+        <ul class="mb-0">
+          <li>Python &amp; Flask (web çatısı)</li>
+          <li>SQLite &amp; SQLAlchemy (veritabanı)</li>
+          <li>scikit-learn (TF-IDF + Naive Bayes ile metin sınıflandırma)</li>
+          <li>Bootstrap 5 &amp; Chart.js (arayüz ve raporlama)</li>
+        </ul>
+      </div>
+    </div>
+    <p class="text-center mt-3">
+      <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary btn-sm">Ana Sayfaya Dön</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Talep #{{ ticket.id }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Talep #{{ ticket.id }}</h1>
+  <a href="{{ url_for('admin.ticket_list') }}" class="btn btn-sm btn-outline-secondary">
+    <i class="bi bi-arrow-left"></i> Talep Listesine Dön
+  </a>
+</div>
+
+<div class="row g-3">
+  {# --- Sol sütun: talep içeriği --- #}
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>{{ ticket.title }}</span>
+        <span class="badge text-bg-{{ STATUS_COLORS[ticket.status] }}">
+          {{ ticket.status_label }}
+        </span>
+      </div>
+      <div class="card-body">
+        <p class="mb-0" style="white-space: pre-line;">{{ ticket.description }}</p>
+      </div>
+    </div>
+
+    {# --- Yapay zeka sınıflandırma sonucu (şeffaflık için karşılaştırmalı) --- #}
+    <div class="card mt-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-cpu"></i> Yapay Zeka Sınıflandırması</span>
+        {% if ticket.has_mismatch %}
+          <span class="badge text-bg-warning">Personel seçimiyle farklı</span>
+        {% elif ticket.predicted_category %}
+          <span class="badge text-bg-success">Personel seçimiyle uyumlu</span>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        {% if ticket.predicted_category %}
+          <table class="table table-sm mb-2 align-middle">
+            <thead>
+              <tr>
+                <th style="width: 25%"></th>
+                <th>Personelin Seçimi</th>
+                <th>Modelin Tahmini</th>
+                <th class="text-end">Model Güveni</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="{{ 'table-warning' if ticket.category_mismatch }}">
+                <th class="fw-normal">Kategori</th>
+                <td>{{ ticket.category_label }}</td>
+                <td class="fw-semibold">
+                  {{ ticket.predicted_category_label }}
+                  {% if ticket.category_mismatch %}
+                    <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+                  {% endif %}
+                </td>
+                <td class="text-end">
+                  {{ '%.0f'|format(ticket.category_confidence * 100) }}%
+                </td>
+              </tr>
+              <tr class="{{ 'table-warning' if ticket.priority_mismatch }}">
+                <th class="fw-normal">Öncelik</th>
+                <td>{{ ticket.priority_label }}</td>
+                <td class="fw-semibold">
+                  {{ ticket.predicted_priority_label }}
+                  {% if ticket.priority_mismatch %}
+                    <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+                  {% endif %}
+                </td>
+                <td class="text-end">
+                  {{ '%.0f'|format(ticket.priority_confidence * 100) }}%
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="form-text mb-0">
+            Tahminler talep metni üzerinden TF-IDF + Naive Bayes modeliyle üretilmiştir.
+            Model önerisi niteliğindedir, nihai karar bilgi işlem personeline aittir.
+          </p>
+        {% else %}
+          <p class="text-muted mb-0 small">
+            <i class="bi bi-info-circle"></i>
+            Bu talep için model tahmini bulunmuyor.
+            (Modeller <code>python train_model.py</code> ile eğitilmelidir.)
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {# --- Sağ sütun: bildiren kişi, künye ve durum güncelleme --- #}
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-header">Bildiren Personel</div>
+      <div class="card-body small">
+        <div class="fw-semibold">{{ ticket.user.full_name }}</div>
+        <div class="text-muted">{{ ticket.user.department }}</div>
+        <div class="text-muted">{{ ticket.user.email }}</div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-header">Talep Künyesi</div>
+      <div class="card-body small">
+        <dl class="row mb-0">
+          <dt class="col-6">Kategori</dt>
+          <dd class="col-6">{{ ticket.category_label }}</dd>
+
+          <dt class="col-6">Öncelik</dt>
+          <dd class="col-6">
+            <span class="badge text-bg-{{ PRIORITY_COLORS[ticket.priority] }}">
+              {{ ticket.priority_label }}
+            </span>
+          </dd>
+
+          {% if ticket.device %}
+            <dt class="col-6">İlgili Cihaz</dt>
+            <dd class="col-6">
+              <a href="{{ url_for('devices.device_detail', device_id=ticket.device.id) }}">
+                <code>{{ ticket.device.serial_no }}</code>
+              </a>
+              <span class="d-block text-muted">{{ ticket.device.name }}</span>
+            </dd>
+          {% endif %}
+
+          <dt class="col-6">Oluşturulma</dt>
+          <dd class="col-6">{{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</dd>
+
+          <dt class="col-6">Güncelleme</dt>
+          <dd class="col-6">{{ ticket.updated_at.strftime('%d.%m.%Y %H:%M') }}</dd>
+
+          {% if ticket.resolved_at %}
+            <dt class="col-6">Çözüm</dt>
+            <dd class="col-6">
+              {{ ticket.resolved_at.strftime('%d.%m.%Y %H:%M') }}
+              <span class="d-block text-muted">{{ ticket.resolution_hours }} saat</span>
+            </dd>
+          {% endif %}
+        </dl>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Durum Güncelle</div>
+      <div class="card-body">
+        <form method="post"
+              action="{{ url_for('admin.update_status', ticket_id=ticket.id) }}">
+          {# Flask-WTF CSRF korumasi icin gizli alan #}
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+          <div class="d-grid gap-2">
+            {% for value in ['acik', 'islemde', 'cozuldu'] %}
+              <button type="submit" name="status" value="{{ value }}"
+                      class="btn btn-sm btn-{{ 'secondary disabled' if ticket.status == value
+                                               else 'outline-' ~ STATUS_COLORS[value] }}">
+                {{ STATUS_LABELS[value] }}
+                {% if ticket.status == value %}<i class="bi bi-check-lg"></i>{% endif %}
+              </button>
+            {% endfor %}
+          </div>
+        </form>
+        <p class="form-text mb-0 mt-2">
+          Personel, talebinin güncel durumunu "Taleplerim" ekranından takip eder.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

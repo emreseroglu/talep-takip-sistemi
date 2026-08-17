@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_field, render_form_errors %}
+{% block title %}Yeni Cihaz{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+
+    <h1 class="h4 mb-3">Yeni Cihaz Kaydı</h1>
+
+    {{ render_form_errors(form) }}
+
+    <div class="card">
+      <div class="card-header">Cihaz Bilgileri</div>
+      <div class="card-body">
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+
+          {{ render_field(form.name, placeholder="Örn: HP ProDesk 400 G7 Masaüstü",
+                autofocus=True) }}
+          {{ render_field(form.serial_no, placeholder="Örn: TRM-PC-004") }}
+
+          <div class="row">
+            <div class="col-md-6">{{ render_field(form.location) }}</div>
+            <div class="col-md-6">{{ render_field(form.assigned_to) }}</div>
+          </div>
+
+          <div class="d-flex gap-2">
+            {{ form.submit(class="btn btn-kurum") }}
+            <a href="{{ url_for('devices.device_list') }}" class="btn btn-outline-secondary">
+              Vazgeç
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="alert alert-light border mt-3 small">
+      <i class="bi bi-qr-code text-secondary"></i>
+      Cihaz kaydedildiğinde <strong>QR etiketi otomatik olarak üretilir</strong>.
+      Etiketi yazdırıp cihazın üzerine yapıştırabilirsiniz; okutulduğunda
+      cihazın zimmet bilgisi ve arıza geçmişi açılır.
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Bağımlı açılır liste: birim seçildiğinde kişi listesi o birimde
+// çalışanlarla sınırlandırılır.
+// Not: Bu yalnızca kullanıcı kolaylığıdır. Kişi-birim uyumu sunucu tarafında
+// DeviceForm.validate_assigned_to() ile ayrıca denetlenir.
+(function () {
+  const birimKisileri = {{ units | tojson }};
+  const birimSecim = document.getElementById('location');
+  const kisiSecim = document.getElementById('assigned_to');
+  if (!birimSecim || !kisiSecim) return;
+
+  function kisileriYenile(secileniKoru) {
+    const oncekiSecim = secileniKoru ? kisiSecim.value : '';
+    const kisiler = birimKisileri[birimSecim.value] || [];
+
+    kisiSecim.innerHTML = '';
+
+    if (!birimSecim.value) {
+      kisiSecim.appendChild(new Option('— Önce birim seçiniz —', ''));
+      kisiSecim.disabled = true;
+      return;
+    }
+
+    kisiSecim.disabled = false;
+    kisiSecim.appendChild(new Option('— Kişi seçiniz —', ''));
+    kisiler.forEach(function (ad) {
+      kisiSecim.appendChild(new Option(ad, ad, false, ad === oncekiSecim));
+    });
+  }
+
+  // Birim değişince önceki kişi seçimi geçersiz kalır, sıfırlanır
+  birimSecim.addEventListener('change', function () { kisileriYenile(false); });
+
+  // Sayfa açıldığında (form hatayla geri döndüyse seçimler korunur)
+  kisileriYenile(true);
+})();
+</script>
+{% endblock %}

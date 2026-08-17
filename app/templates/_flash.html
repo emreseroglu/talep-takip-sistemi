@@ -1,0 +1,14 @@
+{# Flash mesajları (başarı / hata bildirimleri).
+   Bilgilendirme mesajları bir süre sonra kendiliğinden kapanır; hata ve
+   uyarı mesajları kullanıcı okuyana kadar ekranda kalır. #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show"
+         role="alert"
+         {% if category in ['success', 'info'] %}data-otomatik-kapan="5000"{% endif %}>
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"
+              aria-label="Kapat"></button>
+    </div>
+  {% endfor %}
+{% endwith %}

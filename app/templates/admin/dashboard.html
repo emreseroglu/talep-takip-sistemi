@@ -1,0 +1,457 @@
+{% extends "base.html" %}
+{% block title %}Bilgi İşlem Paneli{% endblock %}
+
+{% block head_extra %}
+<style>
+  /* --- Grafik renk rolleri ---------------------------------------------
+     Renkler doğrudan hex olarak değil, "rol" olarak kullanılır; böylece
+     paleti değiştirmek için tek yer yeterlidir.
+     Palet, erişilebilirlik doğrulamasından geçirilmiştir (renk körlüğü
+     ayırt edilebilirliği, kontrast, açıklık bandı).                       */
+  .viz {
+    --surface:        #ffffff;   /* grafik zemini (kart içi) */
+    --grid:           #e1e0d9;   /* ızgara çizgisi */
+    --axis:           #c3c2b7;   /* eksen çizgisi */
+    --ink-muted:      #898781;   /* eksen etiketleri */
+    --ink-secondary:  #52514e;
+
+    /* Kategorik seriler (kimlik belirtir) */
+    --series-1: #2a78d6;   /* mavi   */
+    --series-2: #eb6834;   /* turuncu */
+    --series-3: #1baf7a;   /* deniz yeşili */
+    --series-4: #eda100;   /* sarı   */
+
+    /* Sıralı mavi rampa (büyüklük belirtir: koyu = çok) */
+    --ramp-1: #104281;
+    --ramp-2: #1c5cab;
+    --ramp-3: #2a78d6;
+    --ramp-4: #5598e7;
+    --ramp-5: #86b6ef;
+  }
+
+  .chart-box { position: relative; height: 260px; }
+  .chart-box-tall { position: relative; height: 300px; }
+
+  /* Pasta grafiğin renk açıklaması + değer tablosu */
+  .legend-table { font-size: 0.85rem; width: 100%; }
+  .legend-table td { padding: 0.3rem 0.25rem; vertical-align: middle; }
+  .legend-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .legend-swatch {
+    display: inline-block; width: 10px; height: 10px;
+    border-radius: 2px; margin-right: 0.45rem;
+  }
+
+  /* Ortalama çözüm süresi için büyük sayı */
+  .hero-figure {
+    font-size: 3rem; font-weight: 700; line-height: 1;
+    color: var(--kurum-koyu, #153c6e);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Bilgi İşlem Paneli</h1>
+  <span class="text-muted small">Son {{ trend_days }} günlük veriler</span>
+</div>
+
+{# ===================== ÖZET SAYAÇLAR ===================== #}
+<div class="row g-3 mb-4">
+  {% set cards = [
+    ('Toplam Talep', stats.total, 'bi-ticket-detailed', 'text-dark', ''),
+    ('Açık', stats.acik, 'bi-exclamation-circle', 'text-danger', 'acik'),
+    ('İşlemde', stats.islemde, 'bi-hourglass-split', 'text-warning', 'islemde'),
+    ('Çözüldü', stats.cozuldu, 'bi-check-circle', 'text-success', 'cozuldu')
+  ] %}
+  {% for label, value, icon, color, status in cards %}
+    <div class="col-6 col-lg-3">
+      <a href="{{ url_for('admin.ticket_list', status=status) }}"
+         class="text-decoration-none text-reset">
+        <div class="card stat-card h-100">
+          <div class="card-body d-flex align-items-center gap-3">
+            <i class="bi {{ icon }} fs-2 {{ color }}"></i>
+            <div>
+              <div class="stat-value">{{ value }}</div>
+              <div class="stat-label">{{ label }}</div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+{# ===================== SON TALEPLER ===================== #}
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>Son Talepler</span>
+    <a href="{{ url_for('admin.ticket_list') }}" class="btn btn-sm btn-outline-secondary">
+      Tümünü Gör
+    </a>
+  </div>
+  <div class="card-body p-0">
+    {% if recent_tickets %}
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+          <thead>
+            <tr>
+              <th>No</th><th>Başlık</th><th>Bildiren</th>
+              <th>Öncelik</th><th>Durum</th><th>Tarih</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticket in recent_tickets %}
+              <tr onclick="location.href='{{ url_for('admin.ticket_detail', ticket_id=ticket.id) }}'"
+                  style="cursor: pointer;">
+                <td class="text-muted">#{{ ticket.id }}</td>
+                <td>
+                  {{ ticket.title }}
+                  {% if ticket.has_mismatch %}
+                    <i class="bi bi-cpu text-warning ms-1"
+                       title="Yapay zeka farklı bir sınıflandırma öneriyor"></i>
+                  {% endif %}
+                </td>
+                <td class="small">{{ ticket.user.full_name }}</td>
+                <td>
+                  <span class="badge text-bg-{{ PRIORITY_COLORS[ticket.priority] }}">
+                    {{ ticket.priority_label }}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge text-bg-{{ STATUS_COLORS[ticket.status] }}">
+                    {{ ticket.status_label }}
+                  </span>
+                </td>
+                <td class="small">{{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="text-center text-muted py-5">
+        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+        Sistemde henüz talep bulunmuyor.
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{# ===================== GRAFİKLER ===================== #}
+{% if stats.total == 0 %}
+  <div class="alert alert-secondary text-center py-5">
+    <i class="bi bi-bar-chart fs-1 d-block mb-2"></i>
+    Grafiklerin oluşturulabilmesi için sistemde henüz yeterli talep bulunmuyor.
+  </div>
+{% else %}
+
+<div class="viz">
+  {# ===================== GRAFİK SATIRI 1 ===================== #}
+  <div class="row g-3 mb-3">
+
+    {# --- Kategori dağılımı (pasta grafik) --- #}
+    <div class="col-lg-5">
+      <div class="card h-100">
+        <div class="card-header">Kategori Bazlı Talep Dağılımı</div>
+        <div class="card-body">
+          <div class="chart-box"><canvas id="categoryChart"></canvas></div>
+
+          {# Renk açıklaması ve kesin değerler.
+             Pasta diliminin rengi tek başına bilgi taşımasın diye
+             etiket ve sayılar burada yazılı olarak da verilir. #}
+          <table class="legend-table mt-3">
+            <tbody id="categoryLegend"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    {# --- Zaman içinde açılan / çözülen talepler (çizgi grafik) --- #}
+    <div class="col-lg-7">
+      <div class="card h-100">
+        <div class="card-header">Açılan ve Çözülen Talepler ({{ trend_days }} gün)</div>
+        <div class="card-body">
+          <div class="chart-box-tall"><canvas id="trendChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ===================== GRAFİK SATIRI 2 ===================== #}
+  <div class="row g-3 mb-3">
+
+    {# --- En sık görülen 5 arıza türü (yatay çubuk) --- #}
+    <div class="col-lg-7">
+      <div class="card h-100">
+        <div class="card-header">En Sık Görülen 5 Arıza Türü</div>
+        <div class="card-body">
+          {% if top_issues.labels %}
+            <div class="chart-box"><canvas id="topIssuesChart"></canvas></div>
+            <p class="form-text mb-0 mt-2">
+              Talep metinlerindeki anahtar kelimelere göre belirlenmiştir.
+              Kategori grafiğinden farklı olarak daha ince ayrım yapar
+              (örneğin yazıcı ve bilgisayar arızalarının ikisi de donanımdır).
+            </p>
+          {% else %}
+            <p class="text-muted small mb-0">Yeterli veri bulunmuyor.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {# --- Ortalama çözüm süresi --- #}
+    <div class="col-lg-5">
+      <div class="card h-100">
+        <div class="card-header">Ortalama Çözüm Süresi</div>
+        <div class="card-body">
+          {% if stats.avg_resolution is not none %}
+            <div class="text-center mb-3">
+              <div class="hero-figure">{{ stats.avg_resolution }}</div>
+              <div class="text-muted small">saat (çözülen {{ stats.cozuldu }} talep ortalaması)</div>
+            </div>
+
+            <table class="legend-table">
+              <thead>
+                <tr class="text-muted">
+                  <th class="fw-normal">Kategori</th>
+                  <th class="fw-normal num">Ortalama (saat)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for label, hours in resolution_by_category.items() %}
+                  <tr>
+                    <td>{{ label }}</td>
+                    <td class="num">{{ hours if hours else '—' }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p class="text-muted small mb-0">
+              Henüz çözülmüş talep bulunmadığı için ortalama hesaplanamıyor.
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# ===================== YAPAY ZEKA UYUM ÖZETİ ===================== #}
+{% if prediction_stats.total %}
+  <div class="card mb-3">
+    <div class="card-body d-flex flex-wrap align-items-center gap-3">
+      <i class="bi bi-cpu fs-3 text-secondary"></i>
+      <div class="flex-grow-1 small">
+        <strong>Yapay zeka sınıflandırması:</strong>
+        {{ prediction_stats.total }} talebin
+        {{ prediction_stats.category_match }} tanesinde kategori,
+        {{ prediction_stats.priority_match }} tanesinde öncelik tahmini
+        personelin seçimiyle örtüşüyor.
+      </div>
+      {% if prediction_stats.mismatch %}
+        <a href="{{ url_for('admin.ticket_list') }}" class="btn btn-sm btn-outline-warning">
+          <i class="bi bi-exclamation-triangle"></i>
+          Gözden geçirilecek: {{ prediction_stats.mismatch }} talep
+        </a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block scripts %}
+{% if stats.total > 0 %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+// ---------------------------------------------------------------------------
+// Sunucudan gelen veriler (Jinja tarafından JSON olarak gömülür)
+// ---------------------------------------------------------------------------
+const categoryData = {{ category_data | tojson }};
+const trendData    = {{ trend_data | tojson }};
+const topIssues    = {{ top_issues | tojson }};
+
+// CSS'te tanımlı renk rollerini oku (tek kaynak: yukarıdaki .viz bloğu)
+const vizStyle = getComputedStyle(document.querySelector('.viz'));
+const color = (name) => vizStyle.getPropertyValue(name).trim();
+
+const SURFACE = color('--surface');
+const GRID    = color('--grid');
+const AXIS    = color('--axis');
+const MUTED   = color('--ink-muted');
+const SERIES  = ['--series-1', '--series-2', '--series-3', '--series-4'].map(color);
+const RAMP    = ['--ramp-1', '--ramp-2', '--ramp-3', '--ramp-4', '--ramp-5'].map(color);
+
+// Tüm grafikler için ortak yazı tipi ve renk
+Chart.defaults.font.family = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = MUTED;
+
+// ---------------------------------------------------------------------------
+// 1) Kategori dağılımı - halka (pasta) grafik
+// ---------------------------------------------------------------------------
+const categoryTotal = categoryData.values.reduce((a, b) => a + b, 0);
+
+new Chart(document.getElementById('categoryChart'), {
+  type: 'doughnut',
+  data: {
+    labels: categoryData.labels,
+    datasets: [{
+      data: categoryData.values,
+      backgroundColor: SERIES,
+      borderColor: SURFACE,   // dilimler arasında 2px zemin boşluğu
+      borderWidth: 2,
+    }],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '55%',
+    plugins: {
+      // Renk açıklaması HTML tablosu olarak aşağıda verildiği için kapalı
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => {
+            const pay = categoryTotal ? (ctx.parsed / categoryTotal * 100).toFixed(0) : 0;
+            return ` ${ctx.label}: ${ctx.parsed} talep (%${pay})`;
+          },
+        },
+      },
+    },
+  },
+});
+
+// Pasta grafiğin renk açıklaması + kesin değer tablosu
+document.getElementById('categoryLegend').innerHTML = categoryData.labels.map((label, i) => {
+  const value = categoryData.values[i];
+  const pay = categoryTotal ? Math.round(value / categoryTotal * 100) : 0;
+  return `<tr>
+            <td><span class="legend-swatch" style="background:${SERIES[i]}"></span>${label}</td>
+            <td class="num">${value}</td>
+            <td class="num text-muted">%${pay}</td>
+          </tr>`;
+}).join('');
+
+// ---------------------------------------------------------------------------
+// 2) Zaman içinde açılan / çözülen talepler - çizgi grafik
+// ---------------------------------------------------------------------------
+new Chart(document.getElementById('trendChart'), {
+  type: 'line',
+  data: {
+    labels: trendData.labels,
+    datasets: [
+      {
+        label: 'Açılan',
+        data: trendData.opened,
+        borderColor: SERIES[0],
+        backgroundColor: SERIES[0],
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,      // 8px çapında imleç
+        tension: 0.3,
+      },
+      {
+        label: 'Çözülen',
+        data: trendData.resolved,
+        borderColor: SERIES[1],
+        backgroundColor: SERIES[1],
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        tension: 0.3,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    // Fareyle gezinirken aynı güne ait iki seri de birlikte gösterilir
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top', align: 'end', labels: { boxWidth: 12, usePointStyle: true } },
+      tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y} talep` } },
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        border: { color: AXIS },
+        ticks: { maxTicksLimit: 10, autoSkip: true, maxRotation: 0 },
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: GRID },
+        border: { display: false },
+        ticks: { precision: 0, stepSize: 1 },
+      },
+    },
+  },
+});
+
+// ---------------------------------------------------------------------------
+// 3) En sık görülen 5 arıza türü - yatay çubuk grafik
+//    Çubuk uçlarına değerleri yazan küçük bir eklenti kullanılır.
+// ---------------------------------------------------------------------------
+const barValueLabels = {
+  id: 'barValueLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    ctx.save();
+    ctx.font = '600 12px ' + Chart.defaults.font.family;
+    ctx.fillStyle = vizStyle.getPropertyValue('--ink-secondary').trim();
+    ctx.textBaseline = 'middle';
+    chart.getDatasetMeta(0).data.forEach((bar, i) => {
+      ctx.fillText(chart.data.datasets[0].data[i], bar.x + 8, bar.y);
+    });
+    ctx.restore();
+  },
+};
+
+const topIssuesCanvas = document.getElementById('topIssuesChart');
+if (topIssuesCanvas) {
+  new Chart(topIssuesCanvas, {
+    type: 'bar',
+    data: {
+      labels: topIssues.labels,
+      datasets: [{
+        label: 'Talep sayısı',
+        data: topIssues.values,
+        // Sıralı rampa: en sık görülen en koyu renkte
+        backgroundColor: topIssues.values.map((_, i) => RAMP[i]),
+        borderRadius: 4,          // çubuk ucu yuvarlatılmış
+        borderSkipped: false,
+        barThickness: 18,
+      }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { right: 28 } },   // değer etiketlerine yer aç
+      plugins: {
+        legend: { display: false },          // tek seri: açıklama gerekmez
+        tooltip: { callbacks: { label: (ctx) => ` ${ctx.parsed.x} talepte geçiyor` } },
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          grid: { color: GRID },
+          border: { display: false },
+          ticks: { precision: 0, stepSize: 1 },
+        },
+        y: {
+          grid: { display: false },
+          border: { color: AXIS },
+        },
+      },
+    },
+    plugins: [barValueLabels],
+  });
+}
+</script>
+{% endif %}
+{% endblock %}

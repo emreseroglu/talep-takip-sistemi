@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}{{ device.serial_no }} — {{ device.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">{{ device.name }}</h1>
+  <a href="{{ url_for('devices.device_list') }}" class="btn btn-sm btn-outline-secondary">
+    <i class="bi bi-arrow-left"></i> Cihaz Listesine Dön
+  </a>
+</div>
+
+<div class="row g-3">
+  {# --- Sol: zimmet bilgisi ve arıza geçmişi --- #}
+  <div class="col-lg-8">
+
+    <div class="card mb-3">
+      <div class="card-header">Zimmet Bilgisi</div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-4">Seri / Demirbaş No</dt>
+          <dd class="col-sm-8"><code>{{ device.serial_no }}</code></dd>
+
+          <dt class="col-sm-4">Cihaz Adı</dt>
+          <dd class="col-sm-8">{{ device.name }}</dd>
+
+          <dt class="col-sm-4">Zimmetli Kişi</dt>
+          <dd class="col-sm-8">{{ device.assigned_to }}</dd>
+
+          <dt class="col-sm-4">Birim / Konum</dt>
+          <dd class="col-sm-8">{{ device.location or '—' }}</dd>
+
+          <dt class="col-sm-4">Kayıt Tarihi</dt>
+          <dd class="col-sm-8">{{ device.registered_at.strftime('%d.%m.%Y') }}</dd>
+
+          <dt class="col-sm-4">Toplam Arıza</dt>
+          <dd class="col-sm-8">{{ device.fault_count }} talep</dd>
+        </dl>
+      </div>
+    </div>
+
+    {# --- Açık talepler --- #}
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Açık Talepler</span>
+        {% if device.open_tickets %}
+          <span class="badge text-bg-danger">{{ device.open_tickets|length }}</span>
+        {% endif %}
+      </div>
+      <div class="card-body p-0">
+        {% if device.open_tickets %}
+          <table class="table table-hover mb-0 align-middle">
+            <tbody>
+              {% for ticket in device.open_tickets %}
+                <tr onclick="location.href='{{ url_for('admin.ticket_detail', ticket_id=ticket.id) }}'"
+                    style="cursor: pointer;">
+                  <td class="text-muted" style="width: 4rem;">#{{ ticket.id }}</td>
+                  <td>
+                    {{ ticket.title }}
+                    <span class="d-block small text-muted">
+                      {{ ticket.user.full_name }} &middot;
+                      {{ ticket.created_at.strftime('%d.%m.%Y') }}
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <span class="badge text-bg-{{ STATUS_COLORS[ticket.status] }}">
+                      {{ ticket.status_label }}
+                    </span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="text-muted small mb-0 p-3">
+            <i class="bi bi-check-circle text-success"></i>
+            Bu cihaz için açık talep bulunmuyor.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+
+    {# --- Arıza geçmişi --- #}
+    <div class="card">
+      <div class="card-header">Arıza Geçmişi</div>
+      <div class="card-body p-0">
+        {% if device.ticket_history %}
+          <div class="table-responsive">
+            <table class="table table-hover table-sm mb-0 align-middle">
+              <thead>
+                <tr>
+                  <th>No</th><th>Başlık</th><th>Kategori</th>
+                  <th>Durum</th><th>Tarih</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ticket in device.ticket_history %}
+                  <tr onclick="location.href='{{ url_for('admin.ticket_detail', ticket_id=ticket.id) }}'"
+                      style="cursor: pointer;">
+                    <td class="text-muted">#{{ ticket.id }}</td>
+                    <td>{{ ticket.title }}</td>
+                    <td class="small">{{ ticket.category_label }}</td>
+                    <td>
+                      <span class="badge text-bg-{{ STATUS_COLORS[ticket.status] }}">
+                        {{ ticket.status_label }}
+                      </span>
+                    </td>
+                    <td class="small">{{ ticket.created_at.strftime('%d.%m.%Y') }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-muted small mb-0 p-3">
+            Bu cihaz için henüz arıza kaydı oluşturulmamış.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {# --- Sağ: QR kod --- #}
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">QR Etiketi</div>
+      <div class="card-body text-center">
+        <img src="{{ url_for('devices.device_qr', device_id=device.id) }}"
+             alt="{{ device.serial_no }} cihazının QR kodu"
+             class="img-fluid border rounded" style="max-width: 200px;">
+
+        <p class="form-text mt-3 mb-3">
+          Bu kod okutulduğunda bu sayfa açılır.
+        </p>
+
+        <div class="d-grid gap-2">
+          <a href="{{ url_for('devices.device_label', device_id=device.id) }}"
+             class="btn btn-kurum btn-sm">
+            <i class="bi bi-printer"></i> Etiketi Yazdır
+          </a>
+          <a href="{{ url_for('devices.device_qr', device_id=device.id, boyut='buyuk', indir=1) }}"
+             class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-download"></i> PNG olarak indir
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

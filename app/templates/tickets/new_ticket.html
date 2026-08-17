@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_field, render_form_errors %}
+{% block title %}Yeni Talep{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+
+    <h1 class="h4 mb-3">Yeni Arıza / Talep Bildirimi</h1>
+
+    {{ render_form_errors(form) }}
+
+    <div class="card">
+      <div class="card-header">Talep Bilgileri</div>
+      <div class="card-body">
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+
+          {{ render_field(form.title,
+                placeholder="Örn: Yazıcıdan çıktı alınamıyor", autofocus=True) }}
+
+          {{ render_field(form.description, rows=6,
+                placeholder="Sorunu ne zaman fark ettiniz, hangi cihazda oluyor, ekranda bir hata mesajı çıkıyor mu?") }}
+
+          <div class="row">
+            <div class="col-md-6">{{ render_field(form.category) }}</div>
+            <div class="col-md-6">{{ render_field(form.priority) }}</div>
+          </div>
+
+          {{ render_field(form.device_id) }}
+
+          <div class="d-flex gap-2">
+            {{ form.submit(class="btn btn-kurum") }}
+            {# main.index kullanıcıyı rolüne göre yönlendirir: personeli
+               "Taleplerim" sayfasına, bilgi işlemi yönetim paneline. #}
+            <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary">
+              Vazgeç
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="alert alert-light border mt-3 small">
+      <i class="bi bi-lightbulb text-warning"></i>
+      <strong>İpucu:</strong> Açıklamayı ne kadar ayrıntılı yazarsanız,
+      sistem talebinizi o kadar doğru sınıflandırır ve talebiniz bilgi işlem
+      birimine daha hızlı yönlendirilir.
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Açıklama alanı için canlı karakter sayacı.
+// Kullanıcı en az 15 karakter kuralını göndermeden önce görebilsin diye eklendi.
+(function () {
+  const MIN_LENGTH = 15;
+  const textarea = document.getElementById('description');
+  if (!textarea) return;
+
+  const counter = document.createElement('div');
+  counter.className = 'form-text text-end';
+  textarea.parentNode.appendChild(counter);
+
+  function update() {
+    const length = textarea.value.trim().length;
+    if (length < MIN_LENGTH) {
+      counter.className = 'form-text text-end text-danger';
+      counter.textContent = `En az ${MIN_LENGTH} karakter gerekli (${length}/${MIN_LENGTH})`;
+    } else {
+      counter.className = 'form-text text-end text-muted';
+      counter.textContent = `${length} karakter`;
+    }
+  }
+
+  textarea.addEventListener('input', update);
+  update();
+})();
+</script>
+{% endblock %}

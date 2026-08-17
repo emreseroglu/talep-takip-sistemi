@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Talepler{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Tüm Talepler</h1>
+  <span class="text-muted small">{{ tickets|length }} kayıt listeleniyor</span>
+</div>
+
+{# --- Filtreleme formu (GET ile çalışır, sorgu parametreleri adres çubuğunda görünür) --- #}
+<div class="card mb-3">
+  <div class="card-body">
+    <form method="get" class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label small mb-1">Durum</label>
+        <select name="status" class="form-select form-select-sm">
+          <option value="">Tümü</option>
+          {% for value in statuses %}
+            <option value="{{ value }}" {{ 'selected' if filters.status == value }}>
+              {{ STATUS_LABELS[value] }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label small mb-1">Kategori</label>
+        <select name="category" class="form-select form-select-sm">
+          <option value="">Tümü</option>
+          {% for value in categories %}
+            <option value="{{ value }}" {{ 'selected' if filters.category == value }}>
+              {{ CATEGORY_LABELS[value] }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label small mb-1">Öncelik</label>
+        <select name="priority" class="form-select form-select-sm">
+          <option value="">Tümü</option>
+          {% for value in priorities %}
+            <option value="{{ value }}" {{ 'selected' if filters.priority == value }}>
+              {{ PRIORITY_LABELS[value] }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-kurum btn-sm flex-fill">
+          <i class="bi bi-funnel"></i> Filtrele
+        </button>
+        <a href="{{ url_for('admin.ticket_list') }}" class="btn btn-outline-secondary btn-sm">
+          Temizle
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    {% if tickets %}
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Başlık</th>
+              <th>Bildiren</th>
+              <th>Kategori</th>
+              <th>Öncelik</th>
+              <th>Durum</th>
+              <th>Tarih</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticket in tickets %}
+              <tr>
+                <td class="text-muted">#{{ ticket.id }}</td>
+                <td>
+                  {{ ticket.title }}
+                  {% if ticket.has_mismatch %}
+                    {# Model tahmini personelin seçiminden farklıysa uyarı işareti #}
+                    <i class="bi bi-cpu text-warning ms-1"
+                       title="Yapay zeka farklı bir sınıflandırma öneriyor"></i>
+                  {% endif %}
+                </td>
+                <td class="small">
+                  {{ ticket.user.full_name }}
+                  <span class="d-block text-muted">{{ ticket.user.department }}</span>
+                </td>
+                <td>
+                  {{ ticket.category_label }}
+                  {% if ticket.category_mismatch %}
+                    <span class="d-block small text-warning">
+                      model: {{ ticket.predicted_category_label }}
+                    </span>
+                  {% endif %}
+                </td>
+                <td>
+                  <span class="badge text-bg-{{ PRIORITY_COLORS[ticket.priority] }}">
+                    {{ ticket.priority_label }}
+                  </span>
+                  {% if ticket.priority_mismatch %}
+                    <span class="d-block small text-warning">
+                      model: {{ ticket.predicted_priority_label }}
+                    </span>
+                  {% endif %}
+                </td>
+                <td>
+                  <span class="badge text-bg-{{ STATUS_COLORS[ticket.status] }}">
+                    {{ ticket.status_label }}
+                  </span>
+                </td>
+                <td class="small">{{ ticket.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                <td class="text-end">
+                  <a href="{{ url_for('admin.ticket_detail', ticket_id=ticket.id) }}"
+                     class="btn btn-sm btn-outline-secondary">Detay</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="text-center text-muted py-5">
+        <i class="bi bi-search fs-1 d-block mb-2"></i>
+        Seçtiğiniz kriterlere uygun talep bulunamadı.
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

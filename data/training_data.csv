@@ -1,0 +1,206 @@
+text,category,priority
+"Bilgisayarım hiç açılmıyor güç tuşuna bastığımda hiçbir tepki vermiyor",donanim,yuksek
+"Bilgisayar açılıyor fakat ekrana görüntü gelmiyor ekran siyah kalıyor",donanim,yuksek
+"Kasadan sürekli bip sesi geliyor ve sistem hiç başlamıyor",donanim,yuksek
+"Monitörüm görüntü vermiyor kabloları değiştirdim yine olmadı",donanim,yuksek
+"Bilgisayarım çalışırken aniden kapanıyor bir daha açamıyorum",donanim,yuksek
+"Harddiskten tıkırtı sesi geliyor dosyalarıma hiç erişemiyorum",donanim,yuksek
+"Dizüstü bilgisayarım şarj olmuyor ve açılmıyor",donanim,yuksek
+"Bilgisayarın anakartı arızalandı cihaz hiç güç almıyor",donanim,yuksek
+"Sistem açılırken mavi ekran veriyor ve sürekli yeniden başlıyor",donanim,yuksek
+"Masaüstü bilgisayarım elektrik almıyor prizi denedim prizde sorun yok",donanim,yuksek
+"Sunucu odasındaki cihaz kapandı tekrar açılmıyor",donanim,yuksek
+"Bilgisayarım açıldıktan birkaç saniye sonra kendiliğinden kapanıyor",donanim,yuksek
+"Ekran kartı arızalandı görüntü bozuk ve parça parça geliyor",donanim,yuksek
+"Bilgisayarımın belleği arızalı sürekli mavi ekran hatası alıyorum",donanim,yuksek
+"Güç kaynağı bozuldu kasadan yanık kokusu geliyor",donanim,yuksek
+"Kesintisiz güç kaynağı bozuldu elektrik gidince bilgisayar hemen kapanıyor",donanim,yuksek
+"Bilgisayarım açılmıyor ekranda işletim sistemi bulunamadı yazıyor",donanim,yuksek
+"Dizüstü bilgisayarımın ekranı kırıldı hiçbir şey görünmüyor",donanim,yuksek
+"Bilgisayar açılış ekranında donup kalıyor ileri gitmiyor",donanim,yuksek
+"Kasanın içinden yanık kokusu geliyor cihazı kapattım",donanim,yuksek
+"Yazıcıda kağıt sıkıştı sıkışan kağıdı çıkaramıyorum",donanim,orta
+"Yazıcı kağıt çekmiyor tepsi dolu olmasına rağmen kağıt yok uyarısı veriyor",donanim,orta
+"Yazıcının toneri bitmiş çıktılar çok soluk çıkıyor",donanim,orta
+"Fotokopi makinesi çıktılarda siyah çizgi bırakıyor",donanim,orta
+"Tarayıcı belge taramıyor tara tuşuna basınca hata veriyor",donanim,orta
+"Ekranımda titreme var görüntü zaman zaman kayıyor",donanim,orta
+"Bilgisayarım çok yavaş çalışıyor ve sık sık donuyor",donanim,orta
+"Yazıcı çıktıyı yarıda kesiyor sayfanın alt kısmı boş geliyor",donanim,orta
+"Çok fonksiyonlu yazıcının faks özelliği çalışmıyor",donanim,orta
+"Bilgisayarın usb girişleri çalışmıyor flash belleği tanımıyor",donanim,orta
+"Hoparlörden hiç ses gelmiyor ses ayarları açık görünüyor",donanim,orta
+"Mikrofonum çalışmıyor toplantıda sesimi kimse duymuyor",donanim,orta
+"Kamera görüntü vermiyor video konferansa katılamıyorum",donanim,orta
+"Yazıcı çıktıyı çok yavaş veriyor bir sayfa dakikalar sürüyor",donanim,orta
+"Barkod okuyucu çalışmıyor barkodu okutunca tepki vermiyor",donanim,orta
+"Bilgisayarımın cd sürücüsü diski okumuyor",donanim,orta
+"Harici diskimi taktığımda bilgisayar tanımıyor",donanim,orta
+"Yazıcıdan çıkan sayfalar mürekkep bulaştırıyor",donanim,orta
+"Bilgisayarım aşırı ısınıyor ve performansı çok düşüyor",donanim,orta
+"Ekran kablosunu oynatınca görüntü gidip geliyor",donanim,orta
+"Kesintisiz güç kaynağı sürekli alarm sesi veriyor",donanim,orta
+"Yazıcının ekranında hata kodu yanıyor çıktı alamıyorum",donanim,orta
+"İkinci monitörümü bağladım ancak görüntü gelmiyor",donanim,orta
+"Bilgisayarın saati sürekli geri kalıyor",donanim,orta
+"Fotokopi makinesi zımba yapmıyor",donanim,orta
+"Klavyemde bazı tuşlar basmama rağmen yazmıyor",donanim,dusuk
+"Faremin imleci ekranda takılarak hareket ediyor",donanim,dusuk
+"Mouse tekerleği çalışmıyor sayfayı aşağı kaydıramıyorum",donanim,dusuk
+"Bilgisayarımın fanı çok fazla ses yapıyor",donanim,dusuk
+"Klavyem çok eski tuşlar zor basılıyor değiştirilmesini istiyorum",donanim,dusuk
+"Yeni mouse pad talebinde bulunmak istiyorum",donanim,dusuk
+"Bilgisayarımın kasası çok tozlanmış temizlenmesini rica ederim",donanim,dusuk
+"Monitörümün yükseklik ayarı çalışmıyor sabit kalıyor",donanim,dusuk
+"Kulaklık talebinde bulunmak istiyorum",donanim,dusuk
+"Klavyemin kablosu kısa geliyor uzatma kablosu gerekiyor",donanim,dusuk
+"Bilgisayarımın ekranını daha büyük bir monitörle değiştirebilir miyiz",donanim,dusuk
+"Yazıcı için yedek kağıt talebimiz var",donanim,dusuk
+"Bilgisayarın hoparlör sesi çok kısık geliyor",donanim,dusuk
+"Web kamerası talebi oluşturmak istiyorum",donanim,dusuk
+"Masaüstü bilgisayarımın yeri değişecek taşınması gerekiyor",donanim,dusuk
+"EBYS sistemine giriş yapamıyorum yetkisiz kullanıcı hatası alıyorum",yazilim,yuksek
+"Excel dosyam açılmıyor dosya bozuk hatası veriyor",yazilim,yuksek
+"Bilgisayarıma virüs bulaştı bütün dosyalarım şifrelenmiş",yazilim,yuksek
+"İşletim sistemi açılmıyor açılışta mavi ekran veriyor",yazilim,yuksek
+"Muhasebe programı hiç açılmıyor sürekli hata mesajı veriyor",yazilim,yuksek
+"Windows lisans süresi doldu bilgisayarı kullanamıyorum",yazilim,yuksek
+"Antivirüs programı ciddi bir tehdit tespit etti bilgisayarı kapattım",yazilim,yuksek
+"Veri tabanı programına bağlanamıyorum sunucuya erişim hatası veriyor",yazilim,yuksek
+"Bütün dosyalarım kayboldu masaüstü bomboş geldi",yazilim,yuksek
+"Kurum yazılımı güncelleme sonrası hiç açılmıyor",yazilim,yuksek
+"Bilgisayarım sürekli yeniden başlıyor güncelleme ekranında takıldı",yazilim,yuksek
+"Şifremi unuttum sisteme hiç giriş yapamıyorum",yazilim,yuksek
+"Hesabım kilitlendi üç kez yanlış şifre girdim giremiyorum",yazilim,yuksek
+"Word dosyam açılmıyor içinde teslim edeceğim önemli rapor var",yazilim,yuksek
+"Elektronik imza uygulaması çalışmıyor evrak imzalayamıyorum",yazilim,yuksek
+"Kayıtlı elektronik posta uygulamasına giriş yapamıyorum",yazilim,yuksek
+"Bilgisayarımda fidye yazılımı uyarısı çıktı dosyalara erişemiyorum",yazilim,yuksek
+"Programı açtığımda uygulama yanıt vermiyor hatası alıyorum ve kapanıyor",yazilim,yuksek
+"Klasörüm silinmiş içindeki bütün verileri kaybettim",yazilim,yuksek
+"İşletim sistemi güncellemesi yarıda kaldı sistem artık açılmıyor",yazilim,yuksek
+"Word açılırken lisans uyarısı veriyor dosyayı kaydetmeme izin vermiyor",yazilim,orta
+"Excel formülleri hesaplama yapmıyor sonuç hücresi boş geliyor",yazilim,orta
+"Outlook e-postaları göndermiyor gelen kutusu da güncellenmiyor",yazilim,orta
+"Pdf dosyalarını açamıyorum bilgisayarımda ilgili program yüklü değil",yazilim,orta
+"İnternet tarayıcısı sürekli donuyor sayfalar geç yükleniyor",yazilim,orta
+"Yazıcı sürücüsü yüklü olmadığı için çıktı alamıyorum",yazilim,orta
+"Kullandığım programın kısayolu masaüstünden kayboldu",yazilim,orta
+"Excel dosyası çok yavaş açılıyor açılması dakikalar sürüyor",yazilim,orta
+"Görüntülü toplantı programının kurulumunu yapamıyorum",yazilim,orta
+"Bilgisayarımda Türkçe karakter sorunu yaşıyorum harfler bozuk çıkıyor",yazilim,orta
+"Outlook takvimim diğer cihazlarla eşleşmiyor",yazilim,orta
+"Pdf düzenleme programı hata vererek kapanıyor",yazilim,orta
+"Kurumsal uygulamadan rapor alamıyorum rapor sayfası boş geliyor",yazilim,orta
+"Dosyaları yazdırmak istediğimde program kapanıyor",yazilim,orta
+"Bilgisayarımdaki tarih ve saat ayarı yanlış programlar hata veriyor",yazilim,orta
+"Sunum dosyam açılmıyor desteklenmeyen dosya biçimi hatası veriyor",yazilim,orta
+"Antivirüs programı güncellenemiyor hata veriyor",yazilim,orta
+"Program açılıyor ancak çok yavaş çalışıyor işlem yapamıyorum",yazilim,orta
+"Ekran görüntüsü alma programı çalışmıyor",yazilim,orta
+"Uzak masaüstü bağlantısı kuramıyorum uygulama hata veriyor",yazilim,orta
+"Excel dosyasını kaydederken hata mesajı alıyorum",yazilim,orta
+"Kullandığımız yazılımın yeni sürümüne geçilmesi ve kurulum yapılması gerekiyor",yazilim,orta
+"Bilgisayarıma pdf okuyucu program kurulmasını istiyorum",yazilim,dusuk
+"Dosya sıkıştırma programı kurulum talebim var",yazilim,dusuk
+"Excel eğitimi almak istiyorum bu konuda kim yardımcı olabilir",yazilim,dusuk
+"Masaüstü arka plan görselini değiştirmek istiyorum",yazilim,dusuk
+"Ekrandaki yazı tipi boyutunu büyütmek istiyorum nasıl yapabilirim",yazilim,dusuk
+"Programın kısayolunu masaüstüne eklemek istiyorum",yazilim,dusuk
+"Bilgisayarıma ek olarak fotoğraf düzenleme programı kurulabilir mi",yazilim,dusuk
+"Klasör paylaşımının nasıl yapıldığını öğrenmek istiyorum",yazilim,dusuk
+"E-posta hesabıma otomatik imza eklemek istiyorum",yazilim,dusuk
+"Yazıcının varsayılan ayarını renkli çıktı olarak değiştirmek istiyorum",yazilim,dusuk
+"Tarayıcı sık kullanılanlarımı yedeklemek istiyorum",yazilim,dusuk
+"Bilgisayarımdaki gereksiz programların temizlenmesini rica ederim",yazilim,dusuk
+"Ekran koruyucu süresini ayarlamak istiyorum",yazilim,dusuk
+"İnternet bağlantım tamamen yok hiçbir siteye giremiyorum",ag,yuksek
+"Tüm birimde internet kesildi kimse çalışamıyor",ag,yuksek
+"Kurum sunucusuna erişemiyorum ağ hatası alıyorum",ag,yuksek
+"Ağ kablosunu taktığımda bağlantı yok uyarısı çıkıyor",ag,yuksek
+"Ortak klasöre erişemiyorum ağ yolu bulunamadı hatası veriyor",ag,yuksek
+"Vpn bağlantısı kurulamıyor uzaktan çalışamıyorum",ag,yuksek
+"İnternet çok yavaş sayfalar hiç açılmıyor bütün işlerim durdu",ag,yuksek
+"Kattaki ağ anahtarı arızalandı hiç kimsede internet yok",ag,yuksek
+"Modem sürekli kendini sıfırlıyor bağlantı devamlı kopuyor",ag,yuksek
+"Kablosuz ağa bağlanamıyorum sürekli kimlik doğrulama hatası veriyor",ag,yuksek
+"Ip çakışması hatası alıyorum ağa hiç çıkamıyorum",ag,yuksek
+"Kurum internet sitesine ve e-devlete hiç bağlanamıyorum",ag,yuksek
+"Ağ yazıcısına ve sunucuya erişim tamamen kesildi",ag,yuksek
+"İnternet bağlantısı sürekli kopuyor işimi yapamıyorum",ag,yuksek
+"Sunucudaki paylaşımlı veri tabanına bağlanılamıyor",ag,yuksek
+"Kablosuz ağ cihazı arızalandı hiçbir cihaz bağlanamıyor",ag,yuksek
+"Alan adı çözümleme hatası alıyorum internet hiç açılmıyor",ag,yuksek
+"Güvenlik duvarı erişimimi engelliyor çalışmam gereken siteye giremiyorum",ag,yuksek
+"İnternetim ara ara kesiliyor sonra kendiliğinden geri geliyor",ag,orta
+"Ağ yazıcısı listede görünmüyor elle de ekleyemedim",ag,orta
+"Kablosuz ağ sinyali odamda çok zayıf çekiyor",ag,orta
+"Ortak klasöre yazma yetkim yok sadece görüntüleyebiliyorum",ag,orta
+"İnternet hızı çok düşük büyük dosyaları indiremiyorum",ag,orta
+"Görüntülü görüşmelerde bağlantı sürekli donuyor",ag,orta
+"Bazı internet sitelerine giriş yapamıyorum engelli görünüyor",ag,orta
+"Ağ sürücüsü bilgisayarımda görünmüyor",ag,orta
+"Telefonumu kurum kablosuz ağına bağlayamıyorum",ag,orta
+"Ağ kablosunun ucu kırılmış değiştirilmesi gerekiyor",ag,orta
+"Uzak masaüstü bağlantısında sürekli kopmalar yaşıyorum",ag,orta
+"Yazıcıya ağ üzerinden gönderdiğim çıktı kuyrukta bekliyor",ag,orta
+"E-posta sunucusuna bağlanmakta zorlanıyorum bağlantı geç kuruluyor",ag,orta
+"Odamdaki ağ prizi çalışmıyor başka prizde sorun yaşamıyorum",ag,orta
+"Bilgisayarım ağa bağlanıyor ancak internete çıkamıyorum",ag,orta
+"Kablosuz ağ şifresi değişmiş yeni şifreyi öğrenebilir miyim",ag,orta
+"Ortak yazıcıya bağlanırken sürekli kullanıcı adı ve şifre soruyor",ag,orta
+"İnternet bağlantısı öğleden sonra çok yavaşlıyor",ag,orta
+"Bilgisayarımın ağ kartı sürücüsü eksik görünüyor",ag,orta
+"Ağ üzerinden dosya kopyalarken bağlantı kopuyor",ag,orta
+"Yeni odama ağ prizi çekilmesini talep ediyorum",ag,dusuk
+"Kablosuz ağ şifresinin değiştirilmesini istiyorum",ag,dusuk
+"Ağ kablosu talebim var iki metre uzunluk yeterli olur",ag,dusuk
+"Misafirlerimiz için internet erişimi tanımlanabilir mi",ag,dusuk
+"Toplantı odasına internet bağlantısı çekilmesini istiyoruz",ag,dusuk
+"Ağ yazıcısının adının değiştirilmesini rica ederim",ag,dusuk
+"Bilgisayarıma sabit ip adresi tanımlanmasını istiyorum",ag,dusuk
+"Yeni bilgisayar için ağ ayarlarının yapılması gerekiyor",ag,dusuk
+"İnternet kullanım kotamı öğrenmek istiyorum",ag,dusuk
+"Ortak klasör için erişim yetkisi talebinde bulunuyorum",ag,dusuk
+"Kablosuz ağa yeni cihaz tanımlanması talebim var",ag,dusuk
+"Ağ prizinin kapağı kırılmış değiştirilmesi gerekiyor",ag,dusuk
+"Kişisel verilerim başkası tarafından görüntülenmiş olabilir acilen kontrol edilsin",diger,yuksek
+"Bilgisayarım çalındı acil işlem yapılması gerekiyor",diger,yuksek
+"Şüpheli bir e-posta geldi ekindeki dosyayı açtım ne yapmalıyım",diger,yuksek
+"Kurumsal e-posta hesabımı başkası kullanıyor olabilir",diger,yuksek
+"Odamdaki cihazlar su baskını nedeniyle zarar gördü acil müdahale gerekiyor",diger,yuksek
+"Elektrik kesintisinden sonra odadaki hiçbir cihaz açılmıyor",diger,yuksek
+"Sunucu odasındaki klima arızalandı cihazlar aşırı ısınıyor",diger,yuksek
+"Yangın sonrası bilgi işlem donanımlarının acilen kontrol edilmesi gerekiyor",diger,yuksek
+"Yeni gelen personel için kullanıcı hesabı açılmasını rica ederim",diger,orta
+"Görev değişikliğim nedeniyle sistem yetkilerimin güncellenmesi gerekiyor",diger,orta
+"Bilgisayarımın başka odaya taşınmasını talep ediyorum",diger,orta
+"Zimmetimdeki cihazın devri için işlem yapılması gerekiyor",diger,orta
+"Emekli olan personelin sistem hesabının kapatılması gerekiyor",diger,orta
+"Toplantı için projeksiyon cihazı kurulumu yapılmasını istiyorum",diger,orta
+"Yeni gelen yazıcının kurulumunun yapılmasını rica ederim",diger,orta
+"Bilgisayarımdaki verilerin yedeklenmesini istiyorum",diger,orta
+"Eski bilgisayarın hurdaya ayrılması için işlem yapılması gerekiyor",diger,orta
+"Personel eğitimi için bilgisayar laboratuvarı ayarlanabilir mi",diger,orta
+"Yeni kurumsal e-posta adresi açılmasını talep ediyorum",diger,orta
+"Zimmet listemin güncellenmesini rica ederim",diger,orta
+"Arşiv belgelerinin taranması konusunda destek istiyorum",diger,orta
+"Toplantı salonundaki ses sisteminin kurulması gerekiyor",diger,orta
+"Yeni açılan birim için bilgisayar ve yazıcı talebimiz var",diger,orta
+"Bilgisayarımın formatlanması gerekiyor bunun için randevu alabilir miyim",diger,orta
+"Şifremi nasıl değiştirebilirim bu konuda bilgi almak istiyorum",diger,dusuk
+"Sistem kullanımı hakkında eğitim talebinde bulunuyorum",diger,dusuk
+"Kurum içi telefon rehberine nasıl ulaşabilirim",diger,dusuk
+"Yazıcı kullanım kılavuzunu benimle paylaşabilir misiniz",diger,dusuk
+"Talep oluşturma sistemi hakkında bilgi almak istiyorum",diger,dusuk
+"Bilgisayarımın seri numarasını nereden öğrenebilirim",diger,dusuk
+"Kartuş değişiminin ne sıklıkla yapıldığını öğrenmek istiyorum",diger,dusuk
+"Bilgi işlem birimine hangi telefondan ulaşabilirim",diger,dusuk
+"Zimmetimde hangi cihazların olduğunu öğrenmek istiyorum",diger,dusuk
+"Yedekleme politikası hakkında bilgi rica ediyorum",diger,dusuk
+"Kurumsal e-posta kotamın ne kadar olduğunu öğrenebilir miyim",diger,dusuk
+"Bilgisayar kullanım kurallarını öğrenmek istiyorum",diger,dusuk
+"Sorunum çözüldü ilginiz için teşekkür etmek istiyorum",diger,dusuk
+"Daha önce açtığım talebin son durumunu öğrenmek istiyorum",diger,dusuk
+"Yazıcı sayaç bilgisinin öğrenilmesi talebinde bulunuyorum",diger,dusuk
+"Sistemde kullanıcı adımın yazımı hatalı düzeltilmesini istiyorum",diger,dusuk

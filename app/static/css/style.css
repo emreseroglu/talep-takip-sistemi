@@ -1,0 +1,414 @@
+/* ===========================================================================
+   Kurumsal tema
+   Bootstrap 5 üzerine yalnızca gerekli düzeltmeler eklenmiştir.
+
+   Not: Renk değişkenleri renkten bağımsız adlandırılmıştır (--kurum-ana,
+   --kurum-koyu ...). Böylece kurumsal renk değiştiğinde değişken adları
+   anlamını yitirmez; tek yerden güncelleme yeterlidir.
+   =========================================================================== */
+
+:root {
+  --kurum-ana: #1c4f8f;    /* ana kurumsal renk (üst bant, butonlar) */
+  --kurum-koyu: #153c6e;   /* koyu ton (vurgu, başlık metni) */
+  --kurum-acik: #e8eef7;   /* açık ton (kart başlığı, seçili satır) */
+  --kurum-kenar: #d3dded;  /* kenarlık */
+  --yan-menu-zemin: #16324f;  /* sol yan menü zemini (koyu lacivert) */
+  --yan-menu-genislik: 240px;
+}
+
+body {
+  background-color: #f4f6f9;
+  font-size: 0.95rem;
+}
+
+/* ===========================================================================
+   Sayfa iskeleti: üst bant + sol yan menü + içerik
+   =========================================================================== */
+.app-header {
+  background-color: var(--kurum-ana);
+  color: #fff;
+  padding: 0.55rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Başlık metni sola yaslıdır; kullanıcı bilgisi sağa itilir. */
+.app-marka {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #fff;
+  text-decoration: none;
+  text-align: left;
+}
+
+.app-marka:hover {
+  color: #fff;
+}
+
+.app-marka .marka-ad {
+  font-weight: 600;
+  line-height: 1.15;
+  font-size: 1rem;
+}
+
+.app-marka .marka-alt {
+  display: block;
+  font-weight: 400;
+  font-size: 0.72rem;
+  opacity: 0.8;
+  line-height: 1.15;
+}
+
+.app-kullanici {
+  margin-left: auto;
+  text-align: right;
+  line-height: 1.2;
+  font-size: 0.85rem;
+}
+
+.app-kullanici .rol {
+  display: block;
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
+
+/* Üst banttaki yan menü açma düğmesi (yalnızca dar ekranlarda) */
+.yan-menu-dugme {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0.3rem;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+}
+
+/* --- Gövde: yan menü + içerik yan yana --- */
+.app-govde {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.app-icerik {
+  flex: 1;
+  min-width: 0;      /* geniş tabloların taşmasını engeller */
+}
+
+/* --- Sol yan menü ---
+   İçerik alanından net biçimde ayrılsın diye koyu lacivert zemin kullanılır.
+   Üst banttan (--kurum-ana) bir ton daha koyudur; böylece iki bölge
+   birbirine karışmaz.
+
+   !important zorunludur: Bootstrap, responsive offcanvas bileşeninin geniş
+   ekrandaki hâlini
+       @media (min-width:992px){ .offcanvas-lg{ background-color:transparent!important } }
+   kuralıyla saydam yapar. Bu kural ezilmezse zemin rengi uygulanmaz ve
+   açık renkli yazılar sayfa zemininde görünmez hâle gelir. */
+.app-yanmenu {
+  background-color: var(--yan-menu-zemin) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Aynı gerekçeyle iç gövdenin de saydam kalması sağlanır; böylece üstteki
+   zemin rengi görünür (gövdeye ayrıca renk verilmesi gerekmez). */
+.app-yanmenu .offcanvas-body {
+  background-color: transparent;
+}
+
+.app-yanmenu.offcanvas-lg {
+  --bs-offcanvas-width: 260px;
+}
+
+@media (min-width: 992px) {
+  .app-yanmenu {
+    width: var(--yan-menu-genislik);
+    flex-shrink: 0;
+  }
+}
+
+.yanmenu-baslik {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 1rem 1rem 0.35rem;
+  font-weight: 600;
+}
+
+.yanmenu-bag {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  font-size: 0.9rem;
+}
+
+.yanmenu-bag:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* Bulunulan sayfa: açık zemin + sol kenar çizgisi + kalın yazı.
+   Renk tek başına bilgi taşımasın diye üç işaret birlikte kullanılır. */
+.yanmenu-bag.active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-weight: 600;
+  border-left-color: #7fb1ee;
+}
+
+.yanmenu-bag.cikis {
+  color: #ffb3b3;
+}
+
+.yanmenu-bag.cikis:hover {
+  background: rgba(220, 53, 69, 0.25);
+  color: #fff;
+}
+
+/* Dar ekranda açılan panelin kapatma düğmesi koyu zeminde görünsün */
+.app-yanmenu .offcanvas-header {
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.app-yanmenu .offcanvas-header .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* ===========================================================================
+   Bileşenler
+   =========================================================================== */
+
+/* --- Butonlar --- */
+.btn-kurum {
+  background-color: var(--kurum-ana);
+  border-color: var(--kurum-ana);
+  color: #fff;
+}
+
+.btn-kurum:hover,
+.btn-kurum:focus {
+  background-color: var(--kurum-koyu);
+  border-color: var(--kurum-koyu);
+  color: #fff;
+}
+
+/* --- Kartlar --- */
+.card {
+  border: 1px solid #e5e9f0;
+  border-radius: 0.5rem;
+}
+
+.card-header {
+  background-color: var(--kurum-acik);
+  border-bottom: 1px solid var(--kurum-kenar);
+  font-weight: 600;
+  color: var(--kurum-koyu);
+}
+
+/* --- Formlar --- */
+/* Bootstrap'ın varsayılan placeholder rengi (rgba(33,37,41,.75)) fazla koyu
+   duruyor; girilen metinle karışıyordu. Daha açık bir griye çekildi. */
+.form-control::placeholder {
+  color: #adaca6;
+  opacity: 1;
+}
+
+/* Odak halkası da kurumsal renkte olsun */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: #7ba0cd;
+  box-shadow: 0 0 0 0.2rem rgba(28, 79, 143, 0.15);
+}
+
+.form-check-input:checked {
+  background-color: var(--kurum-ana);
+  border-color: var(--kurum-ana);
+}
+
+/* Zorunlu alan yıldızı imleçle vurgulanabilsin */
+.form-label + .text-danger {
+  cursor: help;
+}
+
+/* --- Giriş ekranı --- */
+.login-wrapper {
+  max-width: 420px;
+  margin: 5vh auto;
+}
+
+/* --- Özet kutuları --- */
+.stat-card {
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.stat-card:hover {
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.08);
+}
+
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-card .stat-label {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+/* --- Tablolar --- */
+.table > thead {
+  background-color: var(--kurum-acik);
+  color: var(--kurum-koyu);
+}
+
+.table > thead th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* --- SSS sohbet balonu --- */
+#sssWidget {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 1050;
+}
+
+.sss-balon {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--kurum-ana);
+  color: #fff;
+  font-size: 1.4rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+  margin-left: auto;
+  display: block;
+}
+
+.sss-balon:hover {
+  background-color: var(--kurum-koyu);
+}
+
+.sss-panel {
+  width: min(360px, calc(100vw - 2.5rem));
+  height: min(480px, calc(100vh - 8rem));
+  background: #fff;
+  border-radius: 0.6rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+
+.sss-baslik {
+  background-color: var(--kurum-ana);
+  color: #fff;
+  padding: 0.6rem 0.85rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sss-mesajlar {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem;
+  background: #f7f9fc;
+}
+
+.sss-mesaj {
+  max-width: 90%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.6rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.sss-mesaj.bot {
+  background: #fff;
+  border: 1px solid var(--kurum-kenar);
+}
+
+.sss-mesaj.kullanici {
+  background: var(--kurum-acik);
+  border: 1px solid var(--kurum-kenar);
+  margin-left: auto;
+}
+
+.sss-ilgili {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.sss-yaziyor {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.sss-ornekler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.sss-ornek {
+  background: #fff;
+  border: 1px solid var(--kurum-kenar);
+  border-radius: 1rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  color: var(--kurum-koyu);
+  text-align: left;
+}
+
+.sss-ornek:hover {
+  background: var(--kurum-acik);
+}
+
+.sss-giris {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  border-top: 1px solid var(--kurum-kenar);
+  background: #fff;
+}
+
+/* --- Yazdırma ------------------------------------------------------------ */
+/* Talep detayı yazdırıldığında menü ve butonlar kağıda basılmasın */
+@media print {
+  .app-header,
+  .app-yanmenu,
+  footer,
+  .btn,
+  #sssWidget,
+  .alert-dismissible .btn-close {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .card {
+    border: 1px solid #999;
+    break-inside: avoid;
+  }
+}

@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "question": "VPN'e nasıl bağlanırım?",
+    "keywords": ["vpn", "uzaktan bağlantı", "evden çalışma", "uzaktan erişim"],
+    "answer": "Kuruma ait VPN istemcisini bilgisayarınıza bilgi işlem birimi kurar. Kurulum sonrası size verilen kullanıcı adı ve şifreyle giriş yapabilirsiniz. VPN hesabınız yoksa, birim amirinizin onayıyla talep oluşturmanız gerekir."
+  },
+  {
+    "id": 2,
+    "question": "Şifremi unuttum, ne yapmalıyım?",
+    "keywords": ["şifre unuttum", "parola", "şifre sıfırlama", "giriş yapamıyorum"],
+    "answer": "Şifre sıfırlama işlemi güvenlik gereği yüz yüze yapılır. Bilgi işlem birimine kurum kimliğinizle başvurmanız ya da dahili telefondan aramanız gerekir. Şifreniz sıfırlandıktan sonra ilk girişte kendi belirleyeceğiniz yeni bir şifreyle değiştiriniz."
+  },
+  {
+    "id": 3,
+    "question": "Bilgisayarıma yazıcı nasıl kurulur?",
+    "keywords": ["yazıcı kurulumu", "yazıcı ekleme", "yazıcı tanımlama", "printer"],
+    "answer": "Ağ yazıcıları bilgi işlem tarafından tanımlanır. Odanızdaki yazıcının adını veya bulunduğu katı belirterek talep oluşturmanız yeterlidir. Yazıcı sürücüsü uzaktan bilgisayarınıza kurulacaktır."
+  },
+  {
+    "id": 4,
+    "question": "Yeni arıza talebi nasıl açarım?",
+    "keywords": ["talep açma", "arıza bildirme", "yeni talep", "arıza kaydı"],
+    "answer": "Üst menüden 'Yeni Talep' bağlantısına tıklayınız. Başlık ve açıklama alanlarını doldurup kategori ile önceliği seçiniz. Açıklamayı ne kadar ayrıntılı yazarsanız talebiniz o kadar doğru sınıflandırılır."
+  },
+  {
+    "id": 5,
+    "question": "Açtığım talebin durumunu nasıl öğrenebilirim?",
+    "keywords": ["talep durumu", "talebim ne oldu", "takip", "çözüldü mü"],
+    "answer": "Üst menüdeki 'Taleplerim' sayfasında tüm talepleriniz ve güncel durumları listelenir. Talebin üzerine tıklayarak detayını ve hangi aşamada olduğunu (Açık, İşlemde, Çözüldü) görebilirsiniz."
+  },
+  {
+    "id": 6,
+    "question": "Kurumsal e-posta hesabı nasıl açtırılır?",
+    "keywords": ["e-posta hesabı", "mail adresi", "eposta açma", "yeni personel hesabı"],
+    "answer": "Kurumsal e-posta hesabı, personelin göreve başlama yazısı ile birlikte talep edilir. Ad, soyad, birim ve TC kimlik bilgilerini içeren bir talep oluşturunuz. Hesap açıldığında geçici şifreniz size iletilir."
+  },
+  {
+    "id": 7,
+    "question": "EBYS sistemine giriş yapamıyorum, ne yapmalıyım?",
+    "keywords": ["ebys", "ebys giremiyorum", "ebys giriş yapamıyorum", "elektronik belge yönetim", "evrak sistemi", "yetkisiz kullanıcı"],
+    "answer": "Önce kullanıcı adı ve şifrenizi doğru girdiğinizden emin olunuz. 'Yetkisiz kullanıcı' hatası alıyorsanız EBYS yetkiniz tanımlanmamış olabilir. Aldığınız hata mesajının ekran görüntüsüyle birlikte talep oluşturunuz."
+  },
+  {
+    "id": 8,
+    "question": "Bilgisayarım çok yavaş çalışıyor, ne yapabilirim?",
+    "keywords": ["bilgisayar yavaş", "bilgisayar donuyor", "bilgisayar performansı", "bilgisayar geç açılıyor"],
+    "answer": "Öncelikle bilgisayarınızı yeniden başlatınız ve açık olan gereksiz programları kapatınız. Sorun devam ederse bilgisayarın bakımı ve gerekirse donanım yükseltmesi için talep oluşturunuz."
+  },
+  {
+    "id": 9,
+    "question": "İnternet bağlantım yok, ne kontrol etmeliyim?",
+    "keywords": ["internet yok", "internet bağlantısı kesildi", "ağ sorunu", "internet sitesine giremiyorum"],
+    "answer": "Ağ kablosunun hem bilgisayara hem duvar prizine takılı olduğunu kontrol ediniz. Kablo takılıysa bilgisayarınızı yeniden başlatınız. Aynı odadaki diğer bilgisayarlarda da internet yoksa bu bilgiyi talebinize ekleyiniz; sorun kat anahtarında olabilir."
+  },
+  {
+    "id": 10,
+    "question": "Ortak klasöre nasıl erişirim?",
+    "keywords": ["ortak klasör", "paylaşımlı klasör", "ağ sürücüsü", "sunucu klasörü"],
+    "answer": "Ortak klasörler birime göre yetkilendirilir. Erişmek istediğiniz klasörün adını ve gerekçesini belirterek talep oluşturunuz. Yetkiniz tanımlandıktan sonra klasör bilgisayarınızda ağ sürücüsü olarak görünecektir."
+  },
+  {
+    "id": 11,
+    "question": "Dosyalarımı nasıl yedeklerim?",
+    "keywords": ["yedekleme", "yedek alma", "veri kaybı", "dosya kaybı"],
+    "answer": "Önemli dosyalarınızı masaüstünde değil, size tanımlanan ağ sürücüsünde saklayınız; bu sürücüler düzenli olarak yedeklenir. Yerel diskteki dosyalar yedeklenmez ve arıza durumunda kurtarılamayabilir."
+  },
+  {
+    "id": 12,
+    "question": "Kablosuz ağ (wifi) şifresini nereden öğrenebilirim?",
+    "keywords": ["wifi şifresi", "kablosuz ağ", "wireless", "telefonu bağlama"],
+    "answer": "Kurum kablosuz ağ şifresi güvenlik gereği paylaşılmaz; cihazınız bilgi işlem tarafından ağa tanımlanır. Bağlanmak istediğiniz cihazın türünü belirterek talep oluşturunuz."
+  },
+  {
+    "id": 13,
+    "question": "Yazıcıda kağıt sıkıştı, ne yapmalıyım?",
+    "keywords": ["kağıt sıkışması", "yazıcı sıkıştı", "kağıt çıkmıyor"],
+    "answer": "Yazıcıyı kapatıp kapaklarını açınız ve sıkışan kağıdı yırtmadan, kağıdın ilerleme yönünde yavaşça çekiniz. Kağıt parçası içeride kaldıysa zorlamayınız; yazıcıyı kapalı bırakıp talep oluşturunuz."
+  },
+  {
+    "id": 14,
+    "question": "Toner veya kartuş nasıl talep edilir?",
+    "keywords": ["toner", "kartuş", "mürekkep", "çıktı soluk"],
+    "answer": "Yazıcının markası, modeli ve bulunduğu birimi belirterek talep oluşturunuz. Yazıcının üzerindeki QR etiketinde bu bilgiler yer alır. Toner değişimi bilgi işlem personeli tarafından yapılır."
+  },
+  {
+    "id": 15,
+    "question": "Zimmetimdeki cihazları nasıl öğrenebilirim?",
+    "keywords": ["zimmet", "demirbaş", "cihaz listesi", "üzerime kayıtlı"],
+    "answer": "Zimmet listeniz bilgi işlem biriminde tutulur. Güncel listenizi öğrenmek veya devir işlemi yaptırmak için talep oluşturunuz. Cihazlarınızın üzerindeki QR etiketleri de zimmet bilgisini içerir."
+  },
+  {
+    "id": 16,
+    "question": "Bilgisayarıma program kurulumu nasıl yaptırırım?",
+    "keywords": ["program kurulumu", "yazılım kurma", "uygulama yükleme", "lisans"],
+    "answer": "Kurum bilgisayarlarına program kurulumu yalnızca bilgi işlem tarafından yapılır. İhtiyaç duyduğunuz programın adını ve kullanım gerekçesini belirterek talep oluşturunuz. Lisans gerektiren programlarda ayrıca onay süreci işletilir."
+  },
+  {
+    "id": 17,
+    "question": "Ekran görüntüsü nasıl alınır?",
+    "keywords": ["ekran görüntüsü", "screenshot", "ekran resmi", "hata görüntüsü"],
+    "answer": "Klavyedeki 'PrtScn' tuşuna basarak tüm ekranın görüntüsünü alabilirsiniz. Windows tuşu + Shift + S kısayolu ile ekranın yalnızca seçtiğiniz bölümünü kopyalayabilirsiniz. Talep açarken hata görüntüsünü eklemeniz çözümü hızlandırır."
+  },
+  {
+    "id": 18,
+    "question": "Bilgisayarımda virüs uyarısı çıktı, ne yapmalıyım?",
+    "keywords": ["virüs", "zararlı yazılım", "antivirüs uyarısı", "şüpheli e-posta"],
+    "answer": "Bilgisayarı kapatmayınız ancak ağ kablosunu çıkararak internet bağlantısını kesiniz ve hiçbir dosyayı açmayınız. Durumu ivedilikle bilgi işlem birimine bildiriniz. Şüpheli e-posta eklerini kesinlikle açmayınız."
+  },
+  {
+    "id": 19,
+    "question": "Bilgi işlem birimine nasıl ulaşabilirim?",
+    "keywords": ["iletişim", "telefon", "dahili numara", "birime ulaşma"],
+    "answer": "Acil olmayan tüm konular için bu sistem üzerinden talep oluşturmanız, talebinizin kayıt altına alınması açısından en doğru yoldur. Acil durumlarda bilgi işlem biriminin dahili telefonundan ulaşabilirsiniz."
+  },
+  {
+    "id": 20,
+    "question": "Cihazların üzerindeki QR kod ne işe yarar?",
+    "keywords": ["qr kod", "etiket", "barkod", "kare kod"],
+    "answer": "QR etiketi cihazın zimmet bilgisine, arıza geçmişine ve açık taleplerine hızlıca ulaşmayı sağlar. Bilgi işlem personeli arıza sırasında bu kodu okutarak cihazın geçmişini görebilir."
+  },
+  {
+    "id": 21,
+    "question": "Yazıcı çalışmıyor / bozuldu, ne yapmalıyım?",
+    "keywords": ["yazıcı çalışmıyor", "yazıcı bozuldu", "yazıcı arızalı", "yazıcıdan çıktı alamıyorum", "yazıcı açılmıyor", "yazıcı yanıt vermiyor"],
+    "answer": "Önce yazıcının açık olduğunu ve kablolarının takılı olduğunu kontrol ediniz. Ekranında bir hata kodu yanıyorsa not alınız. Sorun devam ederse yazıcının markasını, modelini ve bulunduğu birimi belirterek talep oluşturunuz; bu bilgiler yazıcının üzerindeki QR etiketinde yer alır."
+  },
+  {
+    "id": 22,
+    "question": "Bilgisayarım açılmıyor, ne yapmalıyım?",
+    "keywords": ["bilgisayar açılmıyor", "bilgisayar bozuldu", "bilgisayar çalışmıyor", "ekran siyah", "kasa açılmıyor"],
+    "answer": "Elektrik kablosunun ve prizin çalıştığını kontrol ediniz. Kasa çalışıyor ancak ekran siyah kalıyorsa monitör kablosunu kontrol ediniz. Sorun sürüyorsa bilgisayarı zorlamayınız ve talep oluşturunuz; talebinizde varsa ekranda çıkan hata mesajını da belirtiniz."
+  }
+]
