@@ -188,7 +188,7 @@ def main():
         "  donanım-yazılım (\"program açılmıyor\" vs. \"bilgisayar açılmıyor\") ve",
         "  düşük-orta önceliktir.",
         "",
-        "***Kullanım biçimi.*** Model tahmini personelin seçimini **değiştirmez**;",
+        "****Kullanım biçimi.**** Model tahmini personelin seçimini **değiştirmez**;",
         "her iki değer de bilgi işlem panelinde karşılaştırmalı gösterilir",
         "(şeffaflık ilkesi). Nihai karar bilgi işlem personeline aittir.",
         "",
